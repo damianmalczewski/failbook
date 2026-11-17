@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "quarterly"
+      interval: "monthly"
     target-branch: main
     open-pull-requests-limit: 10
     labels:
@@ -12,7 +12,7 @@ updates:
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "quarterly"
+      interval: "monthly"
     target-branch: main
     open-pull-requests-limit: 10
     labels:

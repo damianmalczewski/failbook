@@ -1,0 +1,31 @@
+name: Go Build
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  automerge:
+    name: Dependabot PR Auto-Merge
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable Auto-Merge
+        run: |
+          if ! gh pr merge --squash --auto "$PR_URL"; then
+            echo "::warning::Automatic merge (--squash) of dependabot PR failed."
+            exit 1
+          fi
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
